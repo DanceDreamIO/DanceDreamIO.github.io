@@ -1,0 +1,23 @@
+让小米路由器 R2D 支持 IPv6
+
+SSH
+首先你需要开启路由器 SSH。到 http://www1.miwifi.com/miwifi_open.html 可以申请，并且有详细的教程。
+
+IPv6
+然后登陆进路由器，并编辑 /etc/config/ipv6 文件，修改内容为
+
+config ipv6 'settings'
+    list if_on 'wan'
+        option enabled '1'
+    list if_on 'ipv6'
+        option enabled '1'
+
+完成后重启路由器就能开始使用 IPv6 了。
+
+防火墙
+但是现在路由器是默认拒绝所有外网发起的 IPv6 连接。如果你需要从外网访问内网的设备，就要设置 ip6tables。
+执行这些命令可以放行所有的连接：
+
+ip6tables -F
+ip6tables -P INPUT ACCEPT
+ip6tables -P FORWARD ACCEPT
